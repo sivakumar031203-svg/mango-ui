@@ -131,7 +131,7 @@ export default function AdminDashboard() {
             <RefreshCw size={16} /> Refresh
           </button>
           <Link to="/admin/mangoes"><button className="btn btn-primary">+ Add Mango</button></Link>
-          <Link to="/admin/orders"><button className="btn btn-outline">All Orders</button></Link>
+          {/* <Link to="/admin/orders"><button className="btn btn-outline">All Orders</button></Link> */}
         </div>
       </div>
 

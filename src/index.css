@@ -235,6 +235,7 @@ textarea:focus {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 .nav-links {
+  margin-left: auto;
   display: flex;
   gap: 16px;
   align-items: center;

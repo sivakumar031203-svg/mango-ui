@@ -23,45 +23,107 @@ export default function Home({ addToCart }) {
 
   return (
     <div className="page">
-      {/* Hero */}
-      <div style={{
-        background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fbbf24 100%)',
-        borderRadius: 24, padding: '48px 40px', marginBottom: 40,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center'
-      }}>
+      <style>{`
+        .hero-section {
+          background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fbbf24 100%);
+          border-radius: 24px;
+          padding: 48px 40px;
+          margin-bottom: 40px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 24px;
+        }
+        .hero-emoji {
+          font-size: 120px;
+          filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15));
+          flex-shrink: 0;
+        }
+        .hero-title {
+          font-size: 52px;
+          line-height: 1.1;
+          margin-bottom: 16px;
+          color: #78350f;
+        }
+        .filter-row {
+          display: flex;
+          gap: 12px;
+          margin-bottom: 32px;
+          flex-wrap: wrap;
+        }
+        .category-pills {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+        .mango-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+          gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+          .hero-section {
+            padding: 32px 24px;
+            border-radius: 18px;
+            margin-bottom: 28px;
+          }
+          .hero-title { font-size: 38px; }
+          .hero-emoji { font-size: 80px; }
+          .mango-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+        }
+
+        @media (max-width: 540px) {
+          .hero-section {
+            padding: 24px 20px;
+            flex-direction: column-reverse;
+            text-align: center;
+            gap: 16px;
+          }
+          .hero-emoji { font-size: 72px; }
+          .hero-title { font-size: 32px; }
+          .filter-row { flex-direction: column; gap: 10px; }
+          .category-pills { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+          .category-pills::-webkit-scrollbar { height: 3px; }
+          .mango-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        }
+
+        @media (max-width: 360px) {
+          .mango-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
+      <div className="hero-section">
         <div>
           <p style={{ color: '#92400e', fontWeight: 600, marginBottom: 8, fontSize: 14, letterSpacing: 2, textTransform: 'uppercase' }}>
             Fresh from the Farm
           </p>
-          <h1 style={{ fontSize: 52, lineHeight: 1.1, marginBottom: 16, color: '#78350f' }}>
-            The Finest<br />Mangoes 🥭
-          </h1>
-          <p style={{ color: '#92400e', maxWidth: 400, lineHeight: 1.6 }}>
-            Premium quality mangoes sourced directly from the best orchards.
-            Sweet, juicy, and delivered to your door.
+          <h1 className="hero-title">The Finest<br />Mangoes 🥭</h1>
+          <p style={{ color: '#92400e', maxWidth: 400, lineHeight: 1.6, fontSize: 15 }}>
+            Premium quality mangoes sourced directly from the best orchards. Sweet, juicy, and delivered to your door.
           </p>
         </div>
-        <div style={{ fontSize: 120, filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.15))' }}>🥭</div>
+        <div className="hero-emoji">🥭</div>
       </div>
 
-      {/* Search & Filter */}
-      <div style={{ display: 'flex', gap: 12, marginBottom: 32, flexWrap: 'wrap' }}>
-        <div style={{ position: 'relative', flex: 1, minWidth: 200 }}>
+      <div className="filter-row">
+        <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
           <Search size={18} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#78716c' }} />
           <input placeholder="Search mangoes..." value={search} onChange={e => setSearch(e.target.value)}
             style={{ paddingLeft: 38 }} />
         </div>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <div className="category-pills">
           <button onClick={() => setSelectedCat('')}
-            className={`btn ${selectedCat === '' ? 'btn-primary' : 'btn-outline'}`}>All</button>
+            className={`btn ${selectedCat === '' ? 'btn-primary' : 'btn-outline'}`}
+            style={{ flexShrink: 0 }}>All</button>
           {categories.map(cat => (
             <button key={cat} onClick={() => setSelectedCat(cat)}
-              className={`btn ${selectedCat === cat ? 'btn-primary' : 'btn-outline'}`}>{cat}</button>
+              className={`btn ${selectedCat === cat ? 'btn-primary' : 'btn-outline'}`}
+              style={{ flexShrink: 0 }}>{cat}</button>
           ))}
         </div>
       </div>
 
-      {/* Grid */}
       {loading ? (
         <div style={{ textAlign: 'center', padding: 60, color: '#78716c', fontSize: 18 }}>Loading mangoes... 🥭</div>
       ) : mangoes.length === 0 ? (
@@ -70,7 +132,7 @@ export default function Home({ addToCart }) {
           <p style={{ marginTop: 12 }}>No mangoes found</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 24 }}>
+        <div className="mango-grid">
           {mangoes.map(m => <MangoCard key={m.id} mango={m} addToCart={addToCart} />)}
         </div>
       )}

@@ -1,3 +1,4 @@
+// ===================== AdminLogin.jsx =====================
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authAPI } from '../../api'
@@ -18,17 +19,19 @@ export default function AdminLogin() {
       navigate('/admin')
     } catch {
       toast.error('Invalid credentials')
-    } finally {
-      setLoading(false)
-    }
+    } finally { setLoading(false) }
   }
 
   return (
-    <div style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #fef3c7, #fde68a)' }}>
-      <div className="card" style={{ padding: 40, width: '100%', maxWidth: 420 }}>
+    <div style={{
+      minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: 'linear-gradient(135deg, #fef3c7, #fde68a)',
+      padding: '16px',
+    }}>
+      <div className="card" style={{ padding: 'clamp(24px, 5vw, 40px)', width: '100%', maxWidth: 420 }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <div style={{ fontSize: 60 }}>🥭</div>
-          <h1 style={{ fontFamily: 'Playfair Display', fontSize: 28, marginTop: 12 }}>Admin Login</h1>
+          <div style={{ fontSize: 56 }}>🥭</div>
+          <h1 style={{ fontFamily: 'Playfair Display', fontSize: 'clamp(22px, 4vw, 28px)', marginTop: 12 }}>Admin Login</h1>
           <p style={{ color: '#78716c', marginTop: 6 }}>MangoMart Management</p>
         </div>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

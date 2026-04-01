@@ -24,49 +24,49 @@ export default function AdminDashboard() {
     setLastRefresh(new Date())
   }
 
-  // useEffect(() => {
-  //   loadAll()
+  useEffect(() => {
+    loadAll()
 
-  //   // SSE: listen for new orders in real time
-  //   const token = localStorage.getItem('adminToken');
+    // SSE: listen for new orders in real time
+    const token = localStorage.getItem('adminToken');
 
-  //   const es = new EventSource(
-  //     `${import.meta.env.VITE_API_URL}/notifications/stream?token=${token}`
-  //   );
+    const es = new EventSource(
+      `${import.meta.env.VITE_API_URL}/notifications/stream?token=${token}`
+    );
 
-  //   sseRef.current = es;
+    sseRef.current = es;
 
-  //   es.addEventListener('new-order', (e) => {
-  //     try {
-  //       const data = JSON.parse(e.data)
-  //       toast.custom((t) => (
-  //         <div style={{
-  //           background: '#166534', color: 'white', borderRadius: 14,
-  //           padding: '14px 20px', maxWidth: 340, boxShadow: '0 8px 30px rgba(0,0,0,0.25)',
-  //           animation: t.visible ? 'slideIn 0.3s ease' : 'slideOut 0.3s ease'
-  //         }}>
-  //           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-  //             <Bell size={18} style={{ color: '#86efac' }} />
-  //             <strong style={{ fontSize: 15 }}>🥭 New Order Received!</strong>
-  //           </div>
-  //           <p style={{ fontSize: 13, opacity: 0.9 }}>
-  //             <strong>{data.customerName}</strong> · {data.customerPhone}
-  //           </p>
-  //           <p style={{ fontSize: 13, opacity: 0.9 }}>
-  //             Order #{data.orderNumber} · ₹{data.total}
-  //           </p>
-  //         </div>
-  //       ), { duration: 8000, position: 'top-right' })
+    es.addEventListener('new-order', (e) => {
+      try {
+        const data = JSON.parse(e.data)
+        toast.custom((t) => (
+          <div style={{
+            background: '#166534', color: 'white', borderRadius: 14,
+            padding: '14px 20px', maxWidth: 340, boxShadow: '0 8px 30px rgba(0,0,0,0.25)',
+            animation: t.visible ? 'slideIn 0.3s ease' : 'slideOut 0.3s ease'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+              <Bell size={18} style={{ color: '#86efac' }} />
+              <strong style={{ fontSize: 15 }}>🥭 New Order Received!</strong>
+            </div>
+            <p style={{ fontSize: 13, opacity: 0.9 }}>
+              <strong>{data.customerName}</strong> · {data.customerPhone}
+            </p>
+            <p style={{ fontSize: 13, opacity: 0.9 }}>
+              Order #{data.orderNumber} · ₹{data.total}
+            </p>
+          </div>
+        ), { duration: 8000, position: 'top-right' })
 
-  //       setUnread(u => u + 1)
-  //       loadAll()
-  //     } catch { }
-  //   })
+        setUnread(u => u + 1)
+        loadAll()
+      } catch { }
+    })
 
-  //   es.onerror = () => es.close()
+    es.onerror = () => es.close()
 
-  //   return () => es.close()
-  // }, [])
+    return () => es.close()
+  }, [])
 
   const markRead = async () => {
     await notificationAPI.markRead()

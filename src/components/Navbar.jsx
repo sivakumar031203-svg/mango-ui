@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ShoppingCart, Package, LogOut, LayoutDashboard, Menu, X, User } from 'lucide-react'
+import { ShoppingCart, Package, LogOut, LayoutDashboard, Menu, X, User, LogIn } from 'lucide-react'
 
 export default function Navbar({ cartCount }) {
   const navigate = useNavigate()
@@ -15,18 +15,24 @@ export default function Navbar({ cartCount }) {
   return (
     <>
       <nav className="navbar">
+
         <Link to="/" style={{ textDecoration: 'none' }}>
           <div className="logo" style={{ fontSize: 26, fontWeight: 800, color: '#f59e0b' }}>🥭 MangoMart</div>
         </Link>
 
         {/* Desktop links */}
         <div className="nav-links">
-          <Link to="contact" style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', color: '#78716c', fontSize: 14, fontWeight: 500 }}>
-            <User size={18} /> Contact Owner
-          </Link>
+
+          {!isAdmin &&
+            <Link to="contact" style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', color: '#78716c', fontSize: 14, fontWeight: 500 }}>
+              <User size={18} /> Contact Owner
+            </Link>
+          }
+
           <Link to="/track" style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', color: '#78716c', fontSize: 14, fontWeight: 500 }}>
             <Package size={18} /> Track Order
           </Link>
+
           {isAdmin ? (
             <>
               <Link to="/admin" style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', color: '#166534', fontSize: 14, fontWeight: 500 }}>
@@ -62,17 +68,23 @@ export default function Navbar({ cartCount }) {
       </nav>
 
       {/* Mobile dropdown menu */}
+
       <div className={`nav-mobile-menu ${menuOpen ? 'open' : ''}`}>
-        <Link
-          to="/contact"
-          onClick={() => setMenuOpen(false)}
-          style={{ textDecoration: 'none' }}
-        >
-          <User size={16} /> Contact Owner
-        </Link>
+
+        {!isAdmin &&
+          <Link
+            to="/contact"
+            onClick={() => setMenuOpen(false)}
+            style={{ textDecoration: 'none' }}
+          >
+            <User size={16} /> Contact Owner
+          </Link>
+        }
+
         <Link to="/track" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none' }}>
           <Package size={16} /> Track Order
         </Link>
+
         {isAdmin ? (
           <>
             <Link to="/admin" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none' }}>
@@ -83,7 +95,9 @@ export default function Navbar({ cartCount }) {
             </button>
           </>
         ) : (
-          <Link to="/admin/login" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none' }}>Admin Login</Link>
+          <Link to="/admin/login" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none' }}>
+            <LogIn size={16} />Admin Login
+          </Link>
         )}
       </div>
     </>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { orderAPI } from '../api'
 import toast from 'react-hot-toast'
-import { QrCode, Smartphone, MapPin, User, Phone, Mail, FileText, ArrowLeft, ShoppingBag } from 'lucide-react'
+import { QrCode, Smartphone, MapPin, User, Phone, Mail, FileText, ArrowLeft, ShoppingBag, IndianRupee, Banknote } from 'lucide-react'
 
 export default function Checkout({ cart, clearCart }) {
   const navigate = useNavigate()
@@ -40,19 +40,37 @@ export default function Checkout({ cart, clearCart }) {
     return Object.keys(e).length === 0
   }
 
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
     if (cart.length === 0) return toast.error('Cart is empty!')
+
     setLoading(true)
+
     try {
-      const payload = { ...form, paymentMethod, items: cart.map(i => ({ mangoId: i.id, quantity: i.qty })) }
+      const payload = {
+        ...form,
+        paymentMethod,
+        items: cart.map(i => ({ mangoId: i.id, quantity: i.qty }))
+      }
+
       const res = await orderAPI.place(payload)
+
       clearCart()
-      navigate(`/payment/${res.data.orderNumber}`, { state: res.data })
+
+      if (paymentMethod === 'COD') {
+        toast.success('✅ Order Placed Successfully (Cash on Delivery)')
+        navigate(`/track?order=${res.data.orderNumber}`)
+      } else {
+        navigate(`/payment/${res.data.orderNumber}`, { state: res.data })
+      }
+
     } catch (err) {
       toast.error(err.response?.data?.message || 'Order failed. Try again.')
-    } finally { setLoading(false) }
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (cart.length === 0) return (
@@ -207,6 +225,7 @@ export default function Checkout({ cart, clearCart }) {
                 {[
                   { value: 'QR_CODE', label: 'Scan QR Code', icon: QrCode, desc: 'Pay by scanning QR' },
                   { value: 'UPI', label: 'Pay via UPI ID', icon: Smartphone, desc: 'Send to UPI directly' },
+                  { value: 'COD', label: 'Cash on Delivery', icon: Banknote, desc: 'Pay when order is delivered' }
                 ].map(m => (
                   <div key={m.value} onClick={() => setPaymentMethod(m.value)} style={{
                     padding: 16, borderRadius: 14,

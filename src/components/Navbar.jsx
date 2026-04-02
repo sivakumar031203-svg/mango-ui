@@ -16,7 +16,7 @@ export default function Navbar({ cartCount }) {
     <>
       <nav className="navbar">
         <Link to="/" style={{ textDecoration: 'none' }}>
-          <div className="logo" style={{ fontSize: 26, fontWeight: 800, color: '#f59e0b' }}>🥭 Mart</div>
+          <div className="logo" style={{ fontSize: 26, fontWeight: 800, color: '#f59e0b' }}>🥭 MangoMart</div>
         </Link>
 
         {/* Desktop links */}

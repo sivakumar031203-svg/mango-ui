@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-// const API = axios.create({ baseURL: '/api' });
-
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL
 });
@@ -11,6 +9,8 @@ API.interceptors.request.use(cfg => {
   if (token) cfg.headers.Authorization = `Bearer ${token}`;
   return cfg;
 });
+
+
 API.interceptors.response.use(r => r, err => {
   if (err.response?.status === 401 && window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
     localStorage.removeItem('adminToken');
@@ -28,6 +28,8 @@ export const mangoAPI = {
   delete: (id) => API.delete(`/mangoes/${id}`),
   toggle: (id) => API.patch(`/mangoes/${id}/toggle`),
 };
+
+
 export const orderAPI = {
   place: (d) => API.post('/orders', d),
   track: (n) => API.get(`/orders/track/${n}`),
@@ -38,6 +40,14 @@ export const orderAPI = {
   markDelivered: (id) => API.patch(`/orders/${id}/deliver`),
   getStats: () => API.get('/orders/stats/summary'),
 };
+
+
+export const paymentAPI = {
+  createOrder: (orderNumber) => API.post('/payments/create-order', { orderNumber }),
+  verify: (d) => API.post('/payments/verify', d),
+};
+
+
 export const reviewAPI = {
   getForMango: (id) => API.get(`/reviews/mango/${id}`),
   submit: (d) => API.post('/reviews', d),
@@ -46,6 +56,8 @@ export const reviewAPI = {
   approve: (id) => API.patch(`/reviews/${id}/approve`),
   delete: (id) => API.delete(`/reviews/${id}`),
 };
+
+
 export const couponAPI = {
   validate: (d) => API.post('/coupons/validate', d),
   getAll: () => API.get('/coupons'),
@@ -53,17 +65,25 @@ export const couponAPI = {
   toggle: (id) => API.patch(`/coupons/${id}/toggle`),
   delete: (id) => API.delete(`/coupons/${id}`),
 };
+
+
 export const settingsAPI = {
   getPublic: () => API.get('/settings/public'),
   getAll: () => API.get('/settings'),
   save: (d) => API.post('/settings', d),
 };
+
+
 export const notificationAPI = {
   getUnreadCount: () => API.get('/notifications/unread-count'),
   markRead: () => API.post('/notifications/mark-read'),
 };
+
+
 export const authAPI = {
   login: (d) => API.post('/auth/login', d),
   verify: () => API.get('/auth/verify'),
 };
+
+
 export default API;

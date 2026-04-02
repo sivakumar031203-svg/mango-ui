@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ShoppingCart, Package, LogOut, LayoutDashboard, Menu, X } from 'lucide-react'
+import { ShoppingCart, Package, LogOut, LayoutDashboard, Menu, X, User } from 'lucide-react'
 
 export default function Navbar({ cartCount }) {
   const navigate = useNavigate()
@@ -21,6 +21,9 @@ export default function Navbar({ cartCount }) {
 
         {/* Desktop links */}
         <div className="nav-links">
+          <Link to="contact" style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', color: '#78716c', fontSize: 14, fontWeight: 500 }}>
+            <User size={18} /> Contact Owner
+          </Link>
           <Link to="/track" style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', color: '#78716c', fontSize: 14, fontWeight: 500 }}>
             <Package size={18} /> Track Order
           </Link>
@@ -60,6 +63,13 @@ export default function Navbar({ cartCount }) {
 
       {/* Mobile dropdown menu */}
       <div className={`nav-mobile-menu ${menuOpen ? 'open' : ''}`}>
+        <Link
+          to="/contact"
+          onClick={() => setMenuOpen(false)}
+          style={{ textDecoration: 'none' }}
+        >
+          <User size={16} /> Contact Owner
+        </Link>
         <Link to="/track" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none' }}>
           <Package size={16} /> Track Order
         </Link>

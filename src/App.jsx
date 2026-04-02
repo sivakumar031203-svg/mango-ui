@@ -11,6 +11,7 @@ import AdminMangoes from './pages/admin/AdminMangoes'
 import AdminOrders from './pages/admin/AdminOrders'
 import ProtectedRoute from './components/ProtectedRoute'
 import { useState, useEffect } from 'react'
+import Contact from './pages/Contact'
 
 export default function App() {
   const [cart, setCart] = useState(() => {
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="/checkout" element={<Checkout cart={cart} clearCart={clearCart} />} />
         <Route path="/payment/:orderNumber" element={<PaymentPage />} />
         <Route path="/track" element={<OrderTrack />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
         <Route path="/admin/mangoes" element={<ProtectedRoute><AdminMangoes /></ProtectedRoute>} />

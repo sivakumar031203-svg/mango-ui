@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import { CheckCircle, Copy } from 'lucide-react'
 
 // ⚠️ REPLACE THESE WITH YOUR ACTUAL DETAILS
-const UPI_ID = 'yourname@upi'
+const UPI_ID = 'siva@upi'
 const UPI_NAME = 'MangoMart Store'
 const QR_IMAGE_URL = '' // Put your QR code image URL here, or leave blank
 

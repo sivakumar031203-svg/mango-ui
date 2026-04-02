@@ -27,8 +27,11 @@ export default function Checkout({ cart, clearCart }) {
     if (!form.customerPhone.trim()) e.customerPhone = 'Mobile number is required'
     else if (!/^[6-9]\d{9}$/.test(form.customerPhone.replace(/\s/g, '')))
       e.customerPhone = 'Enter a valid 10-digit Indian mobile number'
-    if (!form.customerEmail.trim()) e.customerEmail = 'Email is required'
-    else if (!/\S+@\S+\.\S+/.test(form.customerEmail)) e.customerEmail = 'Enter a valid email'
+    if (form.customerEmail && form.customerEmail.trim()) {
+      if (!/\S+@\S+\.\S+/.test(form.customerEmail)) {
+        e.customerEmail = 'Enter a valid email';
+      }
+    }
     if (!form.deliveryAddress.trim()) e.deliveryAddress = 'Delivery address is required'
     if (!form.city.trim()) e.city = 'City is required'
     if (!form.pincode.trim()) e.pincode = 'Pincode is required'
@@ -135,7 +138,7 @@ export default function Checkout({ cart, clearCart }) {
                 <div>
                   <label style={labelStyle}>Full Name *</label>
                   <input value={form.customerName} onChange={e => set('customerName', e.target.value)}
-                    placeholder="Rajesh Kumar" style={errors.customerName ? errorInputStyle : {}} />
+                    placeholder="Siva Devireddy" style={errors.customerName ? errorInputStyle : {}} />
                   {errors.customerName && <p style={errorStyle}>{errors.customerName}</p>}
                 </div>
                 <div>
@@ -145,9 +148,9 @@ export default function Checkout({ cart, clearCart }) {
                   {errors.customerPhone && <p style={errorStyle}>{errors.customerPhone}</p>}
                 </div>
                 <div style={{ gridColumn: '1 / -1' }}>
-                  <label style={labelStyle}><span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Mail size={13} /> Email *</span></label>
+                  <label style={labelStyle}><span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Mail size={13} /> Email (Optional)</span></label>
                   <input type="email" value={form.customerEmail} onChange={e => set('customerEmail', e.target.value)}
-                    placeholder="rajesh@email.com" style={errors.customerEmail ? errorInputStyle : {}} />
+                    placeholder="siva@email.com" style={errors.customerEmail ? errorInputStyle : {}} />
                   {errors.customerEmail && <p style={errorStyle}>{errors.customerEmail}</p>}
                 </div>
               </div>

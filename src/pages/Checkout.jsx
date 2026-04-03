@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { orderAPI } from '../api'
 import toast from 'react-hot-toast'
-import { QrCode, Smartphone, MapPin, User, Phone, Mail, FileText, ArrowLeft, ShoppingBag, IndianRupee, Banknote } from 'lucide-react'
+import { CreditCard, MapPin, User, Phone, Mail, FileText, ArrowLeft, ShoppingBag, IndianRupee, Banknote } from 'lucide-react'
 
 export default function Checkout({ cart, clearCart }) {
   const navigate = useNavigate()
@@ -10,7 +10,7 @@ export default function Checkout({ cart, clearCart }) {
     customerName: '', customerEmail: '', customerPhone: '',
     deliveryAddress: '', city: '', pincode: '', landmark: '', orderNotes: '',
   })
-  const [paymentMethod, setPaymentMethod] = useState('QR_CODE')
+  const [paymentMethod, setPaymentMethod] = useState('RAZORPAY')
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({})
 
@@ -223,9 +223,8 @@ export default function Checkout({ cart, clearCart }) {
               <h3 style={{ fontFamily: 'Playfair Display', fontSize: 18, marginBottom: 16 }}>Payment Method</h3>
               <div className="payment-grid">
                 {[
-                  { value: 'QR_CODE', label: 'Scan QR Code', icon: QrCode, desc: 'Pay by scanning QR' },
-                  { value: 'UPI', label: 'Pay via UPI ID', icon: Smartphone, desc: 'Send to UPI directly' },
-                  { value: 'COD', label: 'Cash on Delivery', icon: Banknote, desc: 'Pay when order is delivered' }
+                  { value: 'RAZORPAY', label: 'Pay Online', icon: CreditCard, desc: 'Cards, UPI, Net Banking & more' },
+                  { value: 'COD', label: 'Cash on Delivery', icon: Banknote, desc: 'Pay when order arrives' }
                 ].map(m => (
                   <div key={m.value} onClick={() => setPaymentMethod(m.value)} style={{
                     padding: 16, borderRadius: 14,

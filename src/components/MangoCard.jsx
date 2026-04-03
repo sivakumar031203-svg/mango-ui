@@ -44,7 +44,7 @@ export default function MangoCard({ mango, addToCart }) {
       <div className="mango-card-image">
         {mango.imageUrl ? (
           <img
-            src={mango.imageUrl}
+            src={`${import.meta.env.VITE_API_URL}${mango.imageUrl}`}
             alt={mango.name}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />

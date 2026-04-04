@@ -1,9 +1,17 @@
-* {
+/* ─────────────────────────────────────────────
+   BASE RESET
+───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* ─────────────────────────────────────────────
+   CSS VARIABLES
+───────────────────────────────────────────── */
 :root {
   --amber: #f59e0b;
   --amber-dark: #d97706;
@@ -19,21 +27,52 @@
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
+/* ─────────────────────────────────────────────
+   BODY / ROOT  ← THIS IS THE MOBILE FIX
+   The old code had nothing here causing
+   content below navbar to be hidden on mobile
+───────────────────────────────────────────── */
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "DM Sans", sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  /* CRITICAL: no overflow:hidden here — was cutting off content on mobile */
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─────────────────────────────────────────────
+   TYPOGRAPHY
+───────────────────────────────────────────── */
 h1,
 h2,
 h3,
+h4,
 .logo {
   font-family: "Playfair Display", serif;
+  line-height: 1.2;
 }
 
+/* ─────────────────────────────────────────────
+   BUTTONS
+───────────────────────────────────────────── */
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px 22px;
   border-radius: 10px;
   border: none;
@@ -43,6 +82,7 @@ h3,
   font-size: 14px;
   transition: all 0.2s;
   white-space: nowrap;
+  text-decoration: none;
 }
 .btn-primary {
   background: var(--amber);
@@ -64,6 +104,7 @@ h3,
 .btn-danger:hover {
   opacity: 0.9;
 }
+
 .btn-outline {
   background: transparent;
   border: 2px solid var(--amber);
@@ -81,6 +122,9 @@ h3,
   opacity: 0.9;
 }
 
+/* ─────────────────────────────────────────────
+   CARD
+───────────────────────────────────────────── */
 .card {
   background: var(--card);
   border-radius: 16px;
@@ -88,31 +132,48 @@ h3,
   border: 1px solid var(--border);
 }
 
+/* ─────────────────────────────────────────────
+   FORM ELEMENTS
+───────────────────────────────────────────── */
 input,
 select,
 textarea {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: 10px;
   font-family: "DM Sans", sans-serif;
   font-size: 14px;
   outline: none;
-  transition: border-color 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   background: white;
+  color: var(--text);
+  -webkit-appearance: none;
 }
 input:focus,
 select:focus,
 textarea:focus {
   border-color: var(--amber);
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
+}
+input::placeholder,
+textarea::placeholder {
+  color: #a8a29e;
 }
 
+/* ─────────────────────────────────────────────
+   BADGES
+───────────────────────────────────────────── */
 .badge {
+  display: inline-flex;
+  align-items: center;
   padding: 3px 10px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
+  white-space: nowrap;
 }
 .badge-pending {
   background: #fef3c7;
@@ -155,10 +216,16 @@ textarea:focus {
   color: #5b21b6;
 }
 
+/* ─────────────────────────────────────────────
+   PAGE LAYOUT
+   IMPORTANT: flex:1 so page fills remaining height
+───────────────────────────────────────────── */
 .page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 24px 20px 60px;
+  width: 100%;
+  flex: 1; /* takes up remaining space after sticky navbar */
 }
 .section-title {
   font-size: 28px;
@@ -168,9 +235,24 @@ textarea:focus {
 .section-sub {
   color: var(--text-muted);
   margin-bottom: 24px;
+  font-size: 14px;
 }
 
-/* Spin animation for refresh button */
+/* ─────────────────────────────────────────────
+   NAVBAR (base styles — Navbar.jsx adds the rest
+   via scoped <style> tags)
+───────────────────────────────────────────── */
+.navbar {
+  background: rgba(255, 251, 240, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  /* sticky is handled inside Navbar.jsx */
+}
+
+/* ─────────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────────── */
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -180,15 +262,18 @@ textarea:focus {
   }
 }
 .spin {
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
-/* New order row highlight */
-.new-order-row {
-  background: #fffbf0 !important;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-/* Notification toast slide-in */
 @keyframes slideIn {
   from {
     transform: translateX(100%);
@@ -199,150 +284,43 @@ textarea:focus {
     opacity: 1;
   }
 }
-@keyframes slideOut {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(100%);
-    opacity: 0;
-  }
+
+/* ─────────────────────────────────────────────
+   TABLE HELPERS
+───────────────────────────────────────────── */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Responsive */
+/* ─────────────────────────────────────────────
+   UTILITY
+───────────────────────────────────────────── */
+.new-order-row {
+  background: #fffbf0 !important;
+}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
 @media (max-width: 768px) {
   .page {
-    padding: 16px 12px;
+    padding: 16px 14px 48px;
   }
   .section-title {
     font-size: 22px;
   }
 }
 
-/* Navbar.css */
-.navbar {
-  background: white;
-  border-bottom: 1px solid #e7e5e4;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-}
-.nav-links {
-  margin-left: auto;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-}
-.nav-hamburger {
-  display: none;
-  background: none;
-  border: 1px solid #e7e5e4;
-  border-radius: 8px;
-  padding: 6px 10px;
-  cursor: pointer;
-}
-.nav-mobile-menu {
-  display: none;
-  flex-direction: column;
-  gap: 0;
-  background: white;
-  border-bottom: 1px solid #e7e5e4;
-  padding: 8px 16px 12px;
-}
-.nav-mobile-menu a,
-.nav-mobile-menu button {
-  font-size: 14px;
-  padding: 10px 0;
-  border-bottom: 1px solid #f5f5f4;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  text-align: left;
-  background: none;
-  border-left: none;
-  border-right: none;
-  border-top: none;
-  cursor: pointer;
-  color: #78716c;
-  font-family: inherit;
-}
-
-@media (max-width: 640px) {
-  .navbar {
-    padding: 0 16px;
+@media (max-width: 480px) {
+  .page {
+    padding: 12px 12px 40px;
   }
-  .nav-links {
-    display: none;
+  .section-title {
+    font-size: 20px;
   }
-  .nav-hamburger {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .nav-mobile-menu.open {
-    display: flex;
-  }
-  .logo {
-    font-size: 20px !important;
-  }
-}
-
-/* Home page catogories */
-
-.filter-row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.category-pills {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 4px;
-  /* hide scrollbar but keep scroll behavior */
-  scrollbar-width: none;
-}
-.category-pills::-webkit-scrollbar {
-  display: none;
-}
-
-/* Mango grid */
-.mango-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-@media (max-width: 900px) {
-  .mango-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-  }
-}
-
-@media (max-width: 520px) {
-  .filter-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
-  .category-pills {
-    /* pills row takes full width and scrolls */
-    width: 100%;
-  }
-  .mango-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+  .btn {
+    font-size: 13px;
+    padding: 9px 18px;
   }
 }

@@ -252,7 +252,7 @@ export default function Checkout({ cart, clearCart }) {
                 <div key={item.id} style={{ display: 'flex', gap: 10, marginBottom: 12, alignItems: 'center' }}>
                   <div style={{ width: 40, height: 40, borderRadius: 8, background: '#fef3c7', overflow: 'hidden', flexShrink: 0 }}>
                     {item.imageUrl
-                      ? <img src={item.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ? <img src={item.imageUrl?.startsWith('http') ? item.imageUrl : `${import.meta.env.VITE_API_URL}${item.imageUrl}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: 20 }}>🥭</div>
                     }
                   </div>

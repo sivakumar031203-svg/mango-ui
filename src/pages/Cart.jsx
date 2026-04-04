@@ -65,7 +65,7 @@ export default function Cart({ cart, updateCart }) {
               <div className="cart-item">
                 <div className="cart-item-img" style={{ background: '#fef3c7', borderRadius: 12, overflow: 'hidden' }}>
                   {item.imageUrl
-                    ? <img src={item.imageUrl} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ? <img src={item.imageUrl?.startsWith('http') ? item.imageUrl : `${import.meta.env.VITE_API_URL}${item.imageUrl}`} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: 28 }}>🥭</div>
                   }
                 </div>
